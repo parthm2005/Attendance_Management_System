@@ -1,0 +1,954 @@
+{
+  "nodes": [
+    {
+      "id": "googleGenerativeAiEmbeddings_0",
+      "position": {
+        "x": 724,
+        "y": 182
+      },
+      "type": "customNode",
+      "data": {
+        "id": "googleGenerativeAiEmbeddings_0",
+        "label": "GoogleGenerativeAI Embeddings",
+        "version": 2,
+        "name": "googleGenerativeAiEmbeddings",
+        "type": "GoogleGenerativeAiEmbeddings",
+        "baseClasses": [
+          "GoogleGenerativeAiEmbeddings",
+          "Embeddings"
+        ],
+        "category": "Embeddings",
+        "description": "Google Generative API to generate embeddings for a given text",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "googleGenerativeAI"
+            ],
+            "optional": false,
+            "description": "Google Generative AI credential.",
+            "id": "googleGenerativeAiEmbeddings_0-input-credential-credential"
+          },
+          {
+            "label": "Model Name",
+            "name": "modelName",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "default": "embedding-001",
+            "id": "googleGenerativeAiEmbeddings_0-input-modelName-asyncOptions"
+          },
+          {
+            "label": "Task Type",
+            "name": "tasktype",
+            "type": "options",
+            "description": "Type of task for which the embedding will be used",
+            "options": [
+              {
+                "label": "TASK_TYPE_UNSPECIFIED",
+                "name": "TASK_TYPE_UNSPECIFIED"
+              },
+              {
+                "label": "RETRIEVAL_QUERY",
+                "name": "RETRIEVAL_QUERY"
+              },
+              {
+                "label": "RETRIEVAL_DOCUMENT",
+                "name": "RETRIEVAL_DOCUMENT"
+              },
+              {
+                "label": "SEMANTIC_SIMILARITY",
+                "name": "SEMANTIC_SIMILARITY"
+              },
+              {
+                "label": "CLASSIFICATION",
+                "name": "CLASSIFICATION"
+              },
+              {
+                "label": "CLUSTERING",
+                "name": "CLUSTERING"
+              }
+            ],
+            "default": "TASK_TYPE_UNSPECIFIED",
+            "id": "googleGenerativeAiEmbeddings_0-input-tasktype-options"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "modelName": "embedding-001",
+          "tasktype": "TASK_TYPE_UNSPECIFIED"
+        },
+        "outputAnchors": [
+          {
+            "id": "googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|Embeddings",
+            "name": "googleGenerativeAiEmbeddings",
+            "label": "GoogleGenerativeAiEmbeddings",
+            "description": "Google Generative API to generate embeddings for a given text",
+            "type": "GoogleGenerativeAiEmbeddings | Embeddings"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 466,
+      "selected": false,
+      "dragging": false,
+      "positionAbsolute": {
+        "x": 724,
+        "y": 182
+      }
+    },
+    {
+      "id": "memoryVectorStore_0",
+      "position": {
+        "x": 1112.7998474747578,
+        "y": -17.608160958618612
+      },
+      "type": "customNode",
+      "data": {
+        "id": "memoryVectorStore_0",
+        "label": "In-Memory Vector Store",
+        "version": 1,
+        "name": "memoryVectorStore",
+        "type": "Memory",
+        "baseClasses": [
+          "Memory",
+          "VectorStoreRetriever",
+          "BaseRetriever"
+        ],
+        "category": "Vector Stores",
+        "description": "In-memory vectorstore that stores embeddings and does an exact, linear search for the most similar embeddings.",
+        "inputParams": [
+          {
+            "label": "Top K",
+            "name": "topK",
+            "description": "Number of top results to fetch. Default to 4",
+            "placeholder": "4",
+            "type": "number",
+            "optional": true,
+            "id": "memoryVectorStore_0-input-topK-number"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Document",
+            "name": "document",
+            "type": "Document",
+            "list": true,
+            "optional": true,
+            "id": "memoryVectorStore_0-input-document-Document"
+          },
+          {
+            "label": "Embeddings",
+            "name": "embeddings",
+            "type": "Embeddings",
+            "id": "memoryVectorStore_0-input-embeddings-Embeddings"
+          }
+        ],
+        "inputs": {
+          "document": [
+            "{{fileLoader_0.data.instance}}",
+            "{{fileLoader_1.data.instance}}",
+            "{{fileLoader_2.data.instance}}"
+          ],
+          "embeddings": "{{googleGenerativeAiEmbeddings_0.data.instance}}",
+          "topK": ""
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "description": "",
+            "options": [
+              {
+                "id": "memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever",
+                "name": "retriever",
+                "label": "Memory Retriever",
+                "description": "",
+                "type": "Memory | VectorStoreRetriever | BaseRetriever"
+              },
+              {
+                "id": "memoryVectorStore_0-output-vectorStore-Memory|VectorStore",
+                "name": "vectorStore",
+                "label": "Memory Vector Store",
+                "description": "",
+                "type": "Memory | VectorStore"
+              }
+            ],
+            "default": "retriever"
+          }
+        ],
+        "outputs": {
+          "output": "retriever"
+        },
+        "selected": false
+      },
+      "width": 300,
+      "height": 405,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1112.7998474747578,
+        "y": -17.608160958618612
+      },
+      "dragging": false
+    },
+    {
+      "id": "fileLoader_0",
+      "position": {
+        "x": 686.9602753321551,
+        "y": -345.12287031270955
+      },
+      "type": "customNode",
+      "data": {
+        "id": "fileLoader_0",
+        "label": "File Loader",
+        "version": 2,
+        "name": "fileLoader",
+        "type": "Document",
+        "baseClasses": [
+          "Document"
+        ],
+        "category": "Document Loaders",
+        "description": "A generic file loader that can load txt, json, csv, docx, pdf, and other files",
+        "inputParams": [
+          {
+            "label": "File",
+            "name": "file",
+            "type": "file",
+            "fileType": "*",
+            "id": "fileLoader_0-input-file-file"
+          },
+          {
+            "label": "Pdf Usage",
+            "name": "pdfUsage",
+            "type": "options",
+            "description": "Only when loading PDF files",
+            "options": [
+              {
+                "label": "One document per page",
+                "name": "perPage"
+              },
+              {
+                "label": "One document per file",
+                "name": "perFile"
+              }
+            ],
+            "default": "perPage",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_0-input-pdfUsage-options"
+          },
+          {
+            "label": "JSONL Pointer Extraction",
+            "name": "pointerName",
+            "type": "string",
+            "description": "Only when loading JSONL files",
+            "placeholder": "<pointerName>",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_0-input-pointerName-string"
+          },
+          {
+            "label": "Additional Metadata",
+            "name": "metadata",
+            "type": "json",
+            "description": "Additional metadata to be added to the extracted documents",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_0-input-metadata-json"
+          },
+          {
+            "label": "Omit Metadata Keys",
+            "name": "omitMetadataKeys",
+            "type": "string",
+            "rows": 4,
+            "description": "Each document loader comes with a default set of metadata keys that are extracted from the document. You can use this field to omit some of the default metadata keys. The value should be a list of keys, seperated by comma. Use * to omit all metadata keys execept the ones you specify in the Additional Metadata field",
+            "placeholder": "key1, key2, key3.nestedKey1",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_0-input-omitMetadataKeys-string"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Text Splitter",
+            "name": "textSplitter",
+            "type": "TextSplitter",
+            "optional": true,
+            "id": "fileLoader_0-input-textSplitter-TextSplitter"
+          }
+        ],
+        "inputs": {
+          "textSplitter": "{{characterTextSplitter_0.data.instance}}",
+          "pdfUsage": "perPage",
+          "pointerName": "",
+          "metadata": "",
+          "omitMetadataKeys": ""
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "description": "Array of document objects containing metadata and pageContent",
+            "options": [
+              {
+                "id": "fileLoader_0-output-document-Document|json",
+                "name": "document",
+                "label": "Document",
+                "description": "Array of document objects containing metadata and pageContent",
+                "type": "Document | json"
+              },
+              {
+                "id": "fileLoader_0-output-text-string|json",
+                "name": "text",
+                "label": "Text",
+                "description": "Concatenated string from pageContent of documents",
+                "type": "string | json"
+              }
+            ],
+            "default": "document"
+          }
+        ],
+        "outputs": {
+          "output": "document"
+        },
+        "selected": false
+      },
+      "width": 300,
+      "height": 438,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 686.9602753321551,
+        "y": -345.12287031270955
+      },
+      "dragging": false
+    },
+    {
+      "id": "groqChat_0",
+      "position": {
+        "x": 1506.3175219909049,
+        "y": -529.8802951511879
+      },
+      "type": "customNode",
+      "data": {
+        "id": "groqChat_0",
+        "label": "GroqChat",
+        "version": 4,
+        "name": "groqChat",
+        "type": "GroqChat",
+        "baseClasses": [
+          "GroqChat",
+          "BaseChatModel",
+          "BaseLanguageModel",
+          "Runnable"
+        ],
+        "category": "Chat Models",
+        "description": "Wrapper around Groq API with LPU Inference Engine",
+        "inputParams": [
+          {
+            "label": "Connect Credential",
+            "name": "credential",
+            "type": "credential",
+            "credentialNames": [
+              "groqApi"
+            ],
+            "optional": true,
+            "id": "groqChat_0-input-credential-credential"
+          },
+          {
+            "label": "Model Name",
+            "name": "modelName",
+            "type": "asyncOptions",
+            "loadMethod": "listModels",
+            "placeholder": "llama3-70b-8192",
+            "id": "groqChat_0-input-modelName-asyncOptions"
+          },
+          {
+            "label": "Temperature",
+            "name": "temperature",
+            "type": "number",
+            "step": 0.1,
+            "default": 0.9,
+            "optional": true,
+            "id": "groqChat_0-input-temperature-number"
+          },
+          {
+            "label": "Streaming",
+            "name": "streaming",
+            "type": "boolean",
+            "default": true,
+            "optional": true,
+            "id": "groqChat_0-input-streaming-boolean"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Cache",
+            "name": "cache",
+            "type": "BaseCache",
+            "optional": true,
+            "id": "groqChat_0-input-cache-BaseCache"
+          }
+        ],
+        "inputs": {
+          "cache": "",
+          "modelName": "llama-3.3-70b-versatile",
+          "temperature": "0.3",
+          "streaming": true
+        },
+        "outputAnchors": [
+          {
+            "id": "groqChat_0-output-groqChat-GroqChat|BaseChatModel|BaseLanguageModel|Runnable",
+            "name": "groqChat",
+            "label": "GroqChat",
+            "description": "Wrapper around Groq API with LPU Inference Engine",
+            "type": "GroqChat | BaseChatModel | BaseLanguageModel | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 617,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1506.3175219909049,
+        "y": -529.8802951511879
+      },
+      "dragging": false
+    },
+    {
+      "id": "conversationalRetrievalQAChain_0",
+      "position": {
+        "x": 1977.7752917375294,
+        "y": 69.37810506078682
+      },
+      "type": "customNode",
+      "data": {
+        "id": "conversationalRetrievalQAChain_0",
+        "label": "Conversational Retrieval QA Chain",
+        "version": 3,
+        "name": "conversationalRetrievalQAChain",
+        "type": "ConversationalRetrievalQAChain",
+        "baseClasses": [
+          "ConversationalRetrievalQAChain",
+          "BaseChain",
+          "Runnable"
+        ],
+        "category": "Chains",
+        "description": "Document QA - built on RetrievalQAChain to provide a chat history component",
+        "inputParams": [
+          {
+            "label": "Return Source Documents",
+            "name": "returnSourceDocuments",
+            "type": "boolean",
+            "optional": true,
+            "id": "conversationalRetrievalQAChain_0-input-returnSourceDocuments-boolean"
+          },
+          {
+            "label": "Rephrase Prompt",
+            "name": "rephrasePrompt",
+            "type": "string",
+            "description": "Using previous chat history, rephrase question into a standalone question",
+            "warning": "Prompt must include input variables: {chat_history} and {question}",
+            "rows": 4,
+            "additionalParams": true,
+            "optional": true,
+            "default": "Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.\n\nChat History:\n{chat_history}\nFollow Up Input: {question}\nStandalone Question:",
+            "id": "conversationalRetrievalQAChain_0-input-rephrasePrompt-string"
+          },
+          {
+            "label": "Response Prompt",
+            "name": "responsePrompt",
+            "type": "string",
+            "description": "Taking the rephrased question, search for answer from the provided context",
+            "warning": "Prompt must include input variable: {context}",
+            "rows": 4,
+            "additionalParams": true,
+            "optional": true,
+            "default": "I want you to act as a document that I am having a conversation with. Your name is \"AI Assistant\". Using the provided context, answer the user's question to the best of your ability using the resources provided.\nIf there is nothing in the context relevant to the question at hand, just say \"Hmm, I'm not sure\" and stop after that. Refuse to answer any question not about the info. Never break character.\n------------\n{context}\n------------\nREMEMBER: If there is no relevant information within the context, just say \"Hmm, I'm not sure\". Don't try to make up an answer. Never break character.",
+            "id": "conversationalRetrievalQAChain_0-input-responsePrompt-string"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Chat Model",
+            "name": "model",
+            "type": "BaseChatModel",
+            "id": "conversationalRetrievalQAChain_0-input-model-BaseChatModel"
+          },
+          {
+            "label": "Vector Store Retriever",
+            "name": "vectorStoreRetriever",
+            "type": "BaseRetriever",
+            "id": "conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever"
+          },
+          {
+            "label": "Memory",
+            "name": "memory",
+            "type": "BaseMemory",
+            "optional": true,
+            "description": "If left empty, a default BufferMemory will be used",
+            "id": "conversationalRetrievalQAChain_0-input-memory-BaseMemory"
+          },
+          {
+            "label": "Input Moderation",
+            "description": "Detect text that could generate harmful output and prevent it from being sent to the language model",
+            "name": "inputModeration",
+            "type": "Moderation",
+            "optional": true,
+            "list": true,
+            "id": "conversationalRetrievalQAChain_0-input-inputModeration-Moderation"
+          }
+        ],
+        "inputs": {
+          "model": "{{groqChat_0.data.instance}}",
+          "vectorStoreRetriever": "{{memoryVectorStore_0.data.instance}}",
+          "memory": "",
+          "returnSourceDocuments": "",
+          "rephrasePrompt": "Given the following conversation and a follow up question, rephrase the follow up question to be a standalone question.\n\nChat History:\n{chat_history}\nFollow Up Input: {question}\nStandalone Question:",
+          "responsePrompt": "You are an intelligent chatbot assistant named \"AI Assistant\" for an AI-based attendance system that uses face recognition. You are helping students by answering their queries about academics.\n\nUse the context provided to answer the user's question clearly and accurately. Speak in a helpful and friendly tone.\n\nYou MUST NOT say phrases like \"according to the context\" or \"based on the information above.\" Do not mention the word \"context\" in your replies.\n\nIf there is **no relevant information** in the context:\n\n- If the question is about the **app or technical features**, respond:\n  \"Hmm, I’m not sure about that. You can contact the developer team for app-related support. \"\n\n- If the question is about **attendance records or student data**, respond:\n  \"Hmm, I’m not sure about that. Please contact the admin or your institution’s support team for detailed attendance records. \"\n\nNEVER make up an answer. NEVER break character. and answer in the short way as possible\n\n-------------\n{context}\n-------------\n",
+          "inputModeration": ""
+        },
+        "outputAnchors": [
+          {
+            "id": "conversationalRetrievalQAChain_0-output-conversationalRetrievalQAChain-ConversationalRetrievalQAChain|BaseChain|Runnable",
+            "name": "conversationalRetrievalQAChain",
+            "label": "ConversationalRetrievalQAChain",
+            "description": "Document QA - built on RetrievalQAChain to provide a chat history component",
+            "type": "ConversationalRetrievalQAChain | BaseChain | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 530,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 1977.7752917375294,
+        "y": 69.37810506078682
+      },
+      "dragging": false
+    },
+    {
+      "id": "characterTextSplitter_0",
+      "position": {
+        "x": 309.0587489424589,
+        "y": -433.7111258125071
+      },
+      "type": "customNode",
+      "data": {
+        "id": "characterTextSplitter_0",
+        "label": "Character Text Splitter",
+        "version": 1,
+        "name": "characterTextSplitter",
+        "type": "CharacterTextSplitter",
+        "baseClasses": [
+          "CharacterTextSplitter",
+          "TextSplitter",
+          "BaseDocumentTransformer",
+          "Runnable"
+        ],
+        "category": "Text Splitters",
+        "description": "splits only on one type of character (defaults to \"\\n\\n\").",
+        "inputParams": [
+          {
+            "label": "Chunk Size",
+            "name": "chunkSize",
+            "type": "number",
+            "description": "Number of characters in each chunk. Default is 1000.",
+            "default": 1000,
+            "optional": true,
+            "id": "characterTextSplitter_0-input-chunkSize-number"
+          },
+          {
+            "label": "Chunk Overlap",
+            "name": "chunkOverlap",
+            "type": "number",
+            "description": "Number of characters to overlap between chunks. Default is 200.",
+            "default": 200,
+            "optional": true,
+            "id": "characterTextSplitter_0-input-chunkOverlap-number"
+          },
+          {
+            "label": "Custom Separator",
+            "name": "separator",
+            "type": "string",
+            "placeholder": "\" \"",
+            "description": "Separator to determine when to split the text, will override the default separator",
+            "optional": true,
+            "id": "characterTextSplitter_0-input-separator-string"
+          }
+        ],
+        "inputAnchors": [],
+        "inputs": {
+          "chunkSize": 1000,
+          "chunkOverlap": 200,
+          "separator": "~"
+        },
+        "outputAnchors": [
+          {
+            "id": "characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+            "name": "characterTextSplitter",
+            "label": "CharacterTextSplitter",
+            "description": "splits only on one type of character (defaults to \"\\n\\n\").",
+            "type": "CharacterTextSplitter | TextSplitter | BaseDocumentTransformer | Runnable"
+          }
+        ],
+        "outputs": {},
+        "selected": false
+      },
+      "width": 300,
+      "height": 475,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 309.0587489424589,
+        "y": -433.7111258125071
+      },
+      "dragging": false
+    },
+    {
+      "id": "fileLoader_1",
+      "position": {
+        "x": 684.0411283722858,
+        "y": -805.5860353297547
+      },
+      "type": "customNode",
+      "data": {
+        "id": "fileLoader_1",
+        "label": "File Loader",
+        "version": 2,
+        "name": "fileLoader",
+        "type": "Document",
+        "baseClasses": [
+          "Document"
+        ],
+        "category": "Document Loaders",
+        "description": "A generic file loader that can load txt, json, csv, docx, pdf, and other files",
+        "inputParams": [
+          {
+            "label": "File",
+            "name": "file",
+            "type": "file",
+            "fileType": "*",
+            "id": "fileLoader_1-input-file-file"
+          },
+          {
+            "label": "Pdf Usage",
+            "name": "pdfUsage",
+            "type": "options",
+            "description": "Only when loading PDF files",
+            "options": [
+              {
+                "label": "One document per page",
+                "name": "perPage"
+              },
+              {
+                "label": "One document per file",
+                "name": "perFile"
+              }
+            ],
+            "default": "perPage",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_1-input-pdfUsage-options"
+          },
+          {
+            "label": "JSONL Pointer Extraction",
+            "name": "pointerName",
+            "type": "string",
+            "description": "Only when loading JSONL files",
+            "placeholder": "<pointerName>",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_1-input-pointerName-string"
+          },
+          {
+            "label": "Additional Metadata",
+            "name": "metadata",
+            "type": "json",
+            "description": "Additional metadata to be added to the extracted documents",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_1-input-metadata-json"
+          },
+          {
+            "label": "Omit Metadata Keys",
+            "name": "omitMetadataKeys",
+            "type": "string",
+            "rows": 4,
+            "description": "Each document loader comes with a default set of metadata keys that are extracted from the document. You can use this field to omit some of the default metadata keys. The value should be a list of keys, seperated by comma. Use * to omit all metadata keys execept the ones you specify in the Additional Metadata field",
+            "placeholder": "key1, key2, key3.nestedKey1",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_1-input-omitMetadataKeys-string"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Text Splitter",
+            "name": "textSplitter",
+            "type": "TextSplitter",
+            "optional": true,
+            "id": "fileLoader_1-input-textSplitter-TextSplitter"
+          }
+        ],
+        "inputs": {
+          "textSplitter": "{{characterTextSplitter_0.data.instance}}",
+          "pdfUsage": "perPage",
+          "pointerName": "",
+          "metadata": "",
+          "omitMetadataKeys": ""
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "description": "Array of document objects containing metadata and pageContent",
+            "options": [
+              {
+                "id": "fileLoader_1-output-document-Document|json",
+                "name": "document",
+                "label": "Document",
+                "description": "Array of document objects containing metadata and pageContent",
+                "type": "Document | json"
+              },
+              {
+                "id": "fileLoader_1-output-text-string|json",
+                "name": "text",
+                "label": "Text",
+                "description": "Concatenated string from pageContent of documents",
+                "type": "string | json"
+              }
+            ],
+            "default": "document"
+          }
+        ],
+        "outputs": {
+          "output": "document"
+        },
+        "selected": false
+      },
+      "width": 300,
+      "height": 438,
+      "selected": false,
+      "positionAbsolute": {
+        "x": 684.0411283722858,
+        "y": -805.5860353297547
+      },
+      "dragging": false
+    },
+    {
+      "id": "fileLoader_2",
+      "position": {
+        "x": 696.4364116324965,
+        "y": -1290.7728372294291
+      },
+      "type": "customNode",
+      "data": {
+        "id": "fileLoader_2",
+        "label": "File Loader",
+        "version": 2,
+        "name": "fileLoader",
+        "type": "Document",
+        "baseClasses": [
+          "Document"
+        ],
+        "category": "Document Loaders",
+        "description": "A generic file loader that can load txt, json, csv, docx, pdf, and other files",
+        "inputParams": [
+          {
+            "label": "File",
+            "name": "file",
+            "type": "file",
+            "fileType": "*",
+            "id": "fileLoader_2-input-file-file"
+          },
+          {
+            "label": "Pdf Usage",
+            "name": "pdfUsage",
+            "type": "options",
+            "description": "Only when loading PDF files",
+            "options": [
+              {
+                "label": "One document per page",
+                "name": "perPage"
+              },
+              {
+                "label": "One document per file",
+                "name": "perFile"
+              }
+            ],
+            "default": "perPage",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_2-input-pdfUsage-options"
+          },
+          {
+            "label": "JSONL Pointer Extraction",
+            "name": "pointerName",
+            "type": "string",
+            "description": "Only when loading JSONL files",
+            "placeholder": "<pointerName>",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_2-input-pointerName-string"
+          },
+          {
+            "label": "Additional Metadata",
+            "name": "metadata",
+            "type": "json",
+            "description": "Additional metadata to be added to the extracted documents",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_2-input-metadata-json"
+          },
+          {
+            "label": "Omit Metadata Keys",
+            "name": "omitMetadataKeys",
+            "type": "string",
+            "rows": 4,
+            "description": "Each document loader comes with a default set of metadata keys that are extracted from the document. You can use this field to omit some of the default metadata keys. The value should be a list of keys, seperated by comma. Use * to omit all metadata keys execept the ones you specify in the Additional Metadata field",
+            "placeholder": "key1, key2, key3.nestedKey1",
+            "optional": true,
+            "additionalParams": true,
+            "id": "fileLoader_2-input-omitMetadataKeys-string"
+          }
+        ],
+        "inputAnchors": [
+          {
+            "label": "Text Splitter",
+            "name": "textSplitter",
+            "type": "TextSplitter",
+            "optional": true,
+            "id": "fileLoader_2-input-textSplitter-TextSplitter"
+          }
+        ],
+        "inputs": {
+          "textSplitter": "{{characterTextSplitter_0.data.instance}}",
+          "pdfUsage": "perPage",
+          "pointerName": "",
+          "metadata": "",
+          "omitMetadataKeys": ""
+        },
+        "outputAnchors": [
+          {
+            "name": "output",
+            "label": "Output",
+            "type": "options",
+            "description": "Array of document objects containing metadata and pageContent",
+            "options": [
+              {
+                "id": "fileLoader_2-output-document-Document|json",
+                "name": "document",
+                "label": "Document",
+                "description": "Array of document objects containing metadata and pageContent",
+                "type": "Document | json"
+              },
+              {
+                "id": "fileLoader_2-output-text-string|json",
+                "name": "text",
+                "label": "Text",
+                "description": "Concatenated string from pageContent of documents",
+                "type": "string | json"
+              }
+            ],
+            "default": "document"
+          }
+        ],
+        "outputs": {
+          "output": "document"
+        },
+        "selected": false
+      },
+      "width": 300,
+      "height": 438,
+      "positionAbsolute": {
+        "x": 696.4364116324965,
+        "y": -1290.7728372294291
+      },
+      "selected": false,
+      "dragging": false
+    }
+  ],
+  "edges": [
+    {
+      "source": "googleGenerativeAiEmbeddings_0",
+      "sourceHandle": "googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|Embeddings",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-embeddings-Embeddings",
+      "type": "buttonedge",
+      "id": "googleGenerativeAiEmbeddings_0-googleGenerativeAiEmbeddings_0-output-googleGenerativeAiEmbeddings-GoogleGenerativeAiEmbeddings|Embeddings-memoryVectorStore_0-memoryVectorStore_0-input-embeddings-Embeddings"
+    },
+    {
+      "source": "fileLoader_0",
+      "sourceHandle": "fileLoader_0-output-document-Document|json",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-document-Document",
+      "type": "buttonedge",
+      "id": "fileLoader_0-fileLoader_0-output-document-Document|json-memoryVectorStore_0-memoryVectorStore_0-input-document-Document"
+    },
+    {
+      "source": "groqChat_0",
+      "sourceHandle": "groqChat_0-output-groqChat-GroqChat|BaseChatModel|BaseLanguageModel|Runnable",
+      "target": "conversationalRetrievalQAChain_0",
+      "targetHandle": "conversationalRetrievalQAChain_0-input-model-BaseChatModel",
+      "type": "buttonedge",
+      "id": "groqChat_0-groqChat_0-output-groqChat-GroqChat|BaseChatModel|BaseLanguageModel|Runnable-conversationalRetrievalQAChain_0-conversationalRetrievalQAChain_0-input-model-BaseChatModel"
+    },
+    {
+      "source": "memoryVectorStore_0",
+      "sourceHandle": "memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever",
+      "target": "conversationalRetrievalQAChain_0",
+      "targetHandle": "conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever",
+      "type": "buttonedge",
+      "id": "memoryVectorStore_0-memoryVectorStore_0-output-retriever-Memory|VectorStoreRetriever|BaseRetriever-conversationalRetrievalQAChain_0-conversationalRetrievalQAChain_0-input-vectorStoreRetriever-BaseRetriever"
+    },
+    {
+      "source": "characterTextSplitter_0",
+      "sourceHandle": "characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+      "target": "fileLoader_0",
+      "targetHandle": "fileLoader_0-input-textSplitter-TextSplitter",
+      "type": "buttonedge",
+      "id": "characterTextSplitter_0-characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable-fileLoader_0-fileLoader_0-input-textSplitter-TextSplitter"
+    },
+    {
+      "source": "characterTextSplitter_0",
+      "sourceHandle": "characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+      "target": "fileLoader_1",
+      "targetHandle": "fileLoader_1-input-textSplitter-TextSplitter",
+      "type": "buttonedge",
+      "id": "characterTextSplitter_0-characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable-fileLoader_1-fileLoader_1-input-textSplitter-TextSplitter"
+    },
+    {
+      "source": "fileLoader_1",
+      "sourceHandle": "fileLoader_1-output-document-Document|json",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-document-Document",
+      "type": "buttonedge",
+      "id": "fileLoader_1-fileLoader_1-output-document-Document|json-memoryVectorStore_0-memoryVectorStore_0-input-document-Document"
+    },
+    {
+      "source": "characterTextSplitter_0",
+      "sourceHandle": "characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable",
+      "target": "fileLoader_2",
+      "targetHandle": "fileLoader_2-input-textSplitter-TextSplitter",
+      "type": "buttonedge",
+      "id": "characterTextSplitter_0-characterTextSplitter_0-output-characterTextSplitter-CharacterTextSplitter|TextSplitter|BaseDocumentTransformer|Runnable-fileLoader_2-fileLoader_2-input-textSplitter-TextSplitter"
+    },
+    {
+      "source": "fileLoader_2",
+      "sourceHandle": "fileLoader_2-output-document-Document|json",
+      "target": "memoryVectorStore_0",
+      "targetHandle": "memoryVectorStore_0-input-document-Document",
+      "type": "buttonedge",
+      "id": "fileLoader_2-fileLoader_2-output-document-Document|json-memoryVectorStore_0-memoryVectorStore_0-input-document-Document"
+    }
+  ]
+}
